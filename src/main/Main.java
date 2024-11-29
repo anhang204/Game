@@ -17,6 +17,7 @@ public class Main extends JFrame{
         panel.startGameThread();
     }
     public static void main(String[] args) {
+        System.out.println("hello");
         new Main();
     }
 }
