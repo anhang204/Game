@@ -8,9 +8,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Enity{
+public class Player extends Enity {
     Panel panel;
     KeyHander keyHander;
+
 
     public Player(Panel panel, KeyHander keyHander) {
         this.panel = panel;
@@ -22,8 +23,8 @@ public class Player extends Enity{
 
     public void setDefaultValues_Player() {
         String direction = "standRight";
-        x = panel.boardWidth/2 - panel.tileSize/2;
-        y = panel.boardHeight/2 - panel.tileSize/2;
+        x = panel.boardWidth / 2 - panel.tileSize / 2;
+        y = panel.boardHeight / 2 - panel.tileSize / 2;
         width = panel.tileSize * 2;
         height = panel.tileSize * 2;
         speedX = 4;
@@ -32,7 +33,7 @@ public class Player extends Enity{
     }
 
     public void getPlayerImage() {
-        try{
+        try {
             standRight1 = ImageIO.read(getClass().getResourceAsStream("/player/Stand_Right-1.png.png"));
             standRight2 = ImageIO.read(getClass().getResourceAsStream("/player/Stand_Right-2.png.png"));
 
@@ -47,14 +48,15 @@ public class Player extends Enity{
             moveLeft2 = ImageIO.read(getClass().getResourceAsStream("/player/Left-2.png.png"));
             moveLeft3 = ImageIO.read(getClass().getResourceAsStream("/player/Left-3.png.png"));
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     int count;
-    public void update(){
-        if(keyHander.w_Pressed == true) {
+
+    public void update() {
+        if (keyHander.w_Pressed == true) {
             count = 1;
             y -= speedY;
             direction_vertical = "up";
@@ -64,8 +66,7 @@ public class Player extends Enity{
             if (direction_horizontal == "right") {
                 action = "moveRight";
             }
-        }
-        else if (keyHander.w_Pressed == false && count == 1) {
+        } else if (keyHander.w_Pressed == false && count == 1) {
             if (action == "moveLeft") {
                 action = "standLeft";
             }
@@ -74,7 +75,7 @@ public class Player extends Enity{
             }
         }
 
-        if(keyHander.s_Pressed == true) {
+        if (keyHander.s_Pressed == true) {
             count = 2;
             y += speedY;
             direction_vertical = "down";
@@ -84,8 +85,7 @@ public class Player extends Enity{
             if (direction_horizontal == "right") {
                 action = "moveRight";
             }
-        }
-        else if (keyHander.s_Pressed == false && count == 2  ) {
+        } else if (keyHander.s_Pressed == false && count == 2) {
             if (action == "moveLeft") {
                 action = "standLeft";
             }
@@ -94,36 +94,32 @@ public class Player extends Enity{
             }
         }
 
-        if(keyHander.a_Pressed == true) {
+        if (keyHander.a_Pressed == true) {
             count = 3;
             action = "moveLeft";
             x -= speedX;
             direction_horizontal = "left";
-        }
-        else if (keyHander.a_Pressed == false && count == 3) {
+        } else if (keyHander.a_Pressed == false && count == 3) {
             action = "standLeft";
         }
 
-        if(keyHander.d_Pressed == true) {
+        if (keyHander.d_Pressed == true) {
             count = 4;
             action = "moveRight";
             x += speedX;
             direction_horizontal = "right";
-        }
-        else if (keyHander.d_Pressed == false && count == 4) {
+        } else if (keyHander.d_Pressed == false && count == 4) {
             action = "standRight";
         }
 
         if (action == "moveRight" || action == "moveLeft") {
             spriteCounter_3Frame++;
-            if(spriteCounter_3Frame > 13) {
-                if(spriteNum_3Frame == 1) {
+            if (spriteCounter_3Frame > 13) {
+                if (spriteNum_3Frame == 1) {
                     spriteNum_3Frame = 2;
-                }
-                else if(spriteNum_3Frame == 2) {
+                } else if (spriteNum_3Frame == 2) {
                     spriteNum_3Frame = 3;
-                }
-                else if(spriteNum_3Frame == 3) {
+                } else if (spriteNum_3Frame == 3) {
                     spriteNum_3Frame = 1;
                 }
                 spriteCounter_3Frame = 0;
@@ -132,11 +128,10 @@ public class Player extends Enity{
 
         if (action == "standLeft" || action == "standRight") {
             spriteCounter_2Frame++;
-            if(spriteCounter_2Frame > 20) {
-                if(spriteNum_2Frame == 1) {
+            if (spriteCounter_2Frame > 20) {
+                if (spriteNum_2Frame == 1) {
                     spriteNum_2Frame = 2;
-                }
-                else if(spriteNum_2Frame == 2) {
+                } else if (spriteNum_2Frame == 2) {
                     spriteNum_2Frame = 1;
                 }
                 spriteCounter_2Frame = 0;
@@ -144,56 +139,50 @@ public class Player extends Enity{
         }
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
 //        g2.setColor(Color.WHITE);
 //        g2.fillRect(x, y, panel.tileSize, panel.tileSize);
         BufferedImage image = null;
         if (action == "moveRight") {
-            if (spriteNum_3Frame == 1){
+            if (spriteNum_3Frame == 1) {
                 image = moveRight1;
             }
-            if (spriteNum_3Frame == 2){
+            if (spriteNum_3Frame == 2) {
                 image = moveRight2;
             }
-            if (spriteNum_3Frame == 3){
+            if (spriteNum_3Frame == 3) {
                 image = moveRight3;
             }
-        }
-        else if (action == "moveLeft") {
-            if (spriteNum_3Frame == 1){
+        } else if (action == "moveLeft") {
+            if (spriteNum_3Frame == 1) {
                 image = moveLeft1;
             }
-            if (spriteNum_3Frame == 2){
+            if (spriteNum_3Frame == 2) {
                 image = moveLeft2;
             }
-            if (spriteNum_3Frame == 3){
+            if (spriteNum_3Frame == 3) {
                 image = moveLeft3;
             }
-        }
-        else if (action == "standRight") {
-            if (spriteNum_2Frame == 1){
+        } else if (action == "standRight") {
+            if (spriteNum_2Frame == 1) {
                 image = standRight1;
             }
-            if (spriteNum_2Frame == 2){
+            if (spriteNum_2Frame == 2) {
                 image = standRight2;
             }
-        }
-
-        else if (action == "standLeft") {
-            if (spriteNum_2Frame == 1){
+        } else if (action == "standLeft") {
+            if (spriteNum_2Frame == 1) {
                 image = standLeft1;
             }
-            if (spriteNum_2Frame == 2){
+            if (spriteNum_2Frame == 2) {
                 image = standLeft2;
             }
-        }
-
-        else {
+        } else {
             action = "standRight";
-            if (spriteNum_2Frame == 1){
+            if (spriteNum_2Frame == 1) {
                 image = standRight1;
             }
-            if (spriteNum_2Frame == 2){
+            if (spriteNum_2Frame == 2) {
                 image = standRight2;
             }
         }

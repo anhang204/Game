@@ -1,10 +1,14 @@
 package main;
 
+import enity.Bullet;
+import enity.Enity;
 import enity.Gun;
 import enity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Panel extends JPanel implements Runnable {
 
@@ -21,11 +25,16 @@ public class Panel extends JPanel implements Runnable {
     //FPS
     final int FPS = 60;
 
+    //System
     KeyHander keyHander = new KeyHander();
     Thread gameThread;
 
-    Player player = new Player(this,keyHander);
+    //Enity and object
+    Player player = new Player(this, keyHander);
     Gun gun = new Gun(player);
+    Bullet bullet = new Bullet(gun);
+
+    public static ArrayList<Bullet> bullets;
 
     public Panel() {
         this.setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -35,27 +44,28 @@ public class Panel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    public void startGameThread(){
+    public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     @Override
     public void run() {
+        bullets = new ArrayList<Bullet>();
 
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime = System.nanoTime();
 
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
                 repaint();
-                delta --;
+                delta--;
             }
         }
     }
@@ -63,6 +73,11 @@ public class Panel extends JPanel implements Runnable {
     public void update() {
         player.update();
         gun.update();
+        bullet.update1();
+
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).update2();
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -72,12 +87,10 @@ public class Panel extends JPanel implements Runnable {
         player.draw(g2);
         gun.draw(g2);
 
+        for (int i = 0; i < bullets.size(); i++){
+            bullets.get(i).draw(g2);
+        }
+
         g2.dispose();
     }
-}
-
-class Bullet {
-    public int x, y;
-    public int width, height;
-    public int speedX = 10, speedY = 10;
 }
