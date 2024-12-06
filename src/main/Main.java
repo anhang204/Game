@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main extends JFrame{
 
@@ -17,6 +16,7 @@ public class Main extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.startGameThread();
     }
+
     public static void main(String[] args) {
         new Main();
     }

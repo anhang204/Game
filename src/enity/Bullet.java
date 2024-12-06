@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Bullet extends Enity{
+    int damge = 1;
     int bulletSpeed = 15;
 
     private long firingTimer;
@@ -24,18 +25,20 @@ public class Bullet extends Enity{
         this.keyHander = gun.keyHander;
         this.gun = gun;
 
-        setDefautValues_Gun();
+        setDefautValues_Bullet();
         getBulletImage();
 
         firingTimer = System.nanoTime();
         firingDelay = 375;
     }
 
-    public void setDefautValues_Gun(){
+    public void setDefautValues_Bullet(){
         x = gun.x;
         y = gun.y + 30;
         width = gun.width/2;
         height = gun.height/2;
+
+        attackArea = new Rectangle(gun.x,gun.y,width,height);
     }
 
     public void getBulletImage() {
@@ -115,7 +118,7 @@ public class Bullet extends Enity{
 
             if (keyHander.down_Pressed == true && loopRight != true && loopLeft != true && loopUp != true && loopDown != true) {
                 x = gun.x + 40;
-                y = gun.y + 90;
+                y = gun.y + 50;
                 loopDown = true;
             }
             if (loopDown == true) {
@@ -128,7 +131,7 @@ public class Bullet extends Enity{
 
         if (gun.action == "left") {
             if (keyHander.up_Pressed == true && loopRight != true && loopLeft != true && loopUp != true && loopDown != true) {
-                x = gun.x + 30;
+                x = gun.x + 50;
                 y = gun.y;
                 loopUp = true;
             }
@@ -140,8 +143,8 @@ public class Bullet extends Enity{
             }
 
             if (keyHander.down_Pressed == true && loopRight != true && loopLeft != true && loopUp != true && loopDown != true) {
-                x = gun.x + 25;
-                y = gun.y + 90;
+                x = gun.x + 40;
+                y = gun.y + 50;
                 loopDown = true;
             }
             if (loopDown == true) {
@@ -151,6 +154,7 @@ public class Bullet extends Enity{
                 }
             }
         }
+        attackArea = new Rectangle(gun.x,gun.y,width,height);
         return false;
     }
     public void draw (Graphics2D g2){
@@ -167,4 +171,3 @@ public class Bullet extends Enity{
         g2.drawImage(image, x, y, null);
     }
 }
-

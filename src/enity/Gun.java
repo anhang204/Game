@@ -25,12 +25,13 @@ public class Gun extends Enity{
         getGunImage();
     }
 
-    int distance = 5;
+    int distanceX = 10;
+    int distanceY = 2;
     public void setDefautValues_Gun(){
-        x = player.x - distance;
-        y = player.y + 10;
-        width = player.width;
-        height = player.height;
+        x = player.x + distanceX;
+        y = player.y-distanceY;
+        width = player.width*3/2;
+        height = player.height*3/2;
         speedX = player.speedX;
         speedY = player.speedY;
         action = "right";
@@ -102,10 +103,10 @@ public class Gun extends Enity{
         }
 
         if (action == "right") {
-            x = player.x - distance;
+            x = player.x - distanceX*2;
         }
         if (action == "left") {
-            x = player.x + distance;
+            x = player.x - distanceX*2;
         }
 
         //Gun when fire bullets
@@ -134,13 +135,12 @@ public class Gun extends Enity{
     }
 
     public void draw(Graphics2D g2) {
-
-
         BufferedImage image = null;
         //Gun when fire bullet right
         if (action == "right") {
             if (keyHander.right_Pressed == true) {
-                y = player.y + 10;
+                y = player.y + distanceY;
+                x = player.x - distanceX*2;
                 if (spriteNum_4Frame == 1){
                     image = gunRight1;
                 }
@@ -158,7 +158,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.left_Pressed == true) {
-                y = player.y + 10;
+                y = player.y + distanceY;
+                x = player.x - distanceX*2;
                 if (spriteNum_4Frame == 1){
                     image = gunLeft1;
                 }
@@ -176,8 +177,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.up_Pressed == true) {
-                y = player.y - 8;
-                x = player.x + 8;
+                y = player.y - 7*distanceY;
+                x = player.x - distanceX;
                 if (spriteNum_4Frame == 1) {
                     image = gunUp1;
                 }
@@ -195,8 +196,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.down_Pressed == true) {
-                y = player.y + 8;
-                x = player.x + 8;
+                y = player.y + 4*distanceY;
+                x = player.x - 3/2*distanceX;
                 if (spriteNum_4Frame == 1) {
                     image = gunDown1;
                 }
@@ -215,18 +216,19 @@ public class Gun extends Enity{
             }
             else if (keyHander.right_Pressed == false){
                 image = gunRight1;
-                if (player.spriteNum_2Frame == 1) {
-                    y = player.y + 14;
+                if (player.spriteNum_2Frame == 1 && keyHander.up_Pressed == false) {
+                    y = player.y + 4;
                 }
-                else if (player.spriteNum_2Frame == 2) {
-                    y = player.y + 10;
+                else if (player.spriteNum_2Frame == 2 && keyHander.up_Pressed == false) {
+                    y = player.y + 0;
                 }
             }
         }
 
         else if (action == "left") {
             if (keyHander.right_Pressed == true) {
-                y = player.y + 10;
+                y = player.y + distanceY;
+                x = player.x - distanceX*2;
                 if (spriteNum_4Frame == 1){
                     image = gunRight1;
                 }
@@ -244,7 +246,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.left_Pressed == true) {
-                y = player.y + 10;
+                y = player.y + distanceY;
+                x = player.x - distanceX*2;
                 if (spriteNum_4Frame == 1){
                     image = gunLeft1;
                 }
@@ -262,8 +265,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.up_Pressed == true) {
-                y = player.y - 8;
-                x = player.x + 2;
+                y = player.y - 6*distanceY;
+                x = player.x - distanceX;
                 if (spriteNum_4Frame == 1) {
                     image = gunUp1;
                 }
@@ -281,8 +284,8 @@ public class Gun extends Enity{
                 }
             }
             else if (keyHander.down_Pressed == true) {
-                y = player.y + 8;
-                x = player.x + 2;
+                y = player.y + 4*distanceY;
+                x = player.x - distanceX;
                 if (spriteNum_4Frame == 1) {
                     image = gunDown1;
                 }
@@ -302,13 +305,15 @@ public class Gun extends Enity{
             else if (keyHander.left_Pressed == false){
                 image = gunLeft1;
                 if (player.spriteNum_2Frame == 1) {
-                    y = player.y + 14;
+                    y = player.y + 4;
                 }
                 else if (player.spriteNum_2Frame == 2) {
-                    y = player.y + 10;
+                    y = player.y;
                 }
             }
         }
-        g2.drawImage(image, x, y, width, height,null);
+        if (player.heart > 0) {
+            g2.drawImage(image, x, y, width, height, null);
+        }
     }
 }

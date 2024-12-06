@@ -9,8 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Enity {
-    Panel panel;
-    KeyHander keyHander;
+    public int heart = 4;
+
+    public Panel panel;
+    public KeyHander keyHander;
 
 
     public Player(Panel panel, KeyHander keyHander) {
@@ -25,11 +27,14 @@ public class Player extends Enity {
         String direction = "standRight";
         x = panel.boardWidth / 2 - panel.tileSize / 2;
         y = panel.boardHeight / 2 - panel.tileSize / 2;
-        width = panel.tileSize * 2;
-        height = panel.tileSize * 2;
+        width = panel.tileSize*3/2;
+        height = panel.tileSize*3/2;
         speedX = 4;
         speedY = 4;
         direction_horizontal = "right";
+
+        damageArea = new Rectangle(x, y, width, height);
+        action = "standRight";
     }
 
     public void getPlayerImage() {
@@ -48,68 +53,196 @@ public class Player extends Enity {
             moveLeft2 = ImageIO.read(getClass().getResourceAsStream("/player/Left-2.png.png"));
             moveLeft3 = ImageIO.read(getClass().getResourceAsStream("/player/Left-3.png.png"));
 
+            hurtRight1 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-1.png.png"));
+            hurtRight2 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-2.png.png"));
+            hurtRight3 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-3.png.png"));
+            hurtRight4 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-4.png.png"));
+            hurtRight5 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-5.png.png"));
+            hurtRight6 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-6.png.png"));
+            hurtRight7 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-7.png.png"));
+            hurtRight8 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-8.png.png"));
+            hurtRight9 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-9.png.png"));
+            hurtRight10 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-10.png.png"));
+            hurtRight11 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-11.png.png"));
+            hurtRight12 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-12.png.png"));
+            hurtRight13 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-13.png.png"));
+            hurtRight14 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-14.png.png"));
+
+            hurtLeft1 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-1.png.png"));
+            hurtLeft2 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-2.png.png"));
+            hurtLeft3 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-3.png.png"));
+            hurtLeft4 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-4.png.png"));
+            hurtLeft5 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-5.png.png"));
+            hurtLeft6 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-6.png.png"));
+            hurtLeft7 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-7.png.png"));
+            hurtLeft8 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-8.png.png"));
+            hurtLeft9 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-9.png.png"));
+            hurtLeft10 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-10.png.png"));
+            hurtLeft11 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-11.png.png"));
+            hurtLeft12 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-12.png.png"));
+            hurtLeft13 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-13.png.png"));
+            hurtLeft14 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-14.png.png"));
+
+            deathRight1 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Right-2.png.png"));
+            deathRight2 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Right-2.png.png"));
+            deathRight3 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Right-3.png.png"));
+            deathRight4 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Right-4.png.png"));
+            deathRight5 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Right-5.png.png"));
+
+            deathLeft1 = ImageIO.read(getClass().getResourceAsStream("/player/Hurt_Left-2.png.png"));
+            deathLeft2 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Left-2.png.png"));
+            deathLeft3 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Left-3.png.png"));
+            deathLeft4 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Left-4.png.png"));
+            deathLeft5 = ImageIO.read(getClass().getResourceAsStream("/player/Death_Left-5.png.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     int count;
-
     public void update() {
-        if (keyHander.w_Pressed == true) {
+        damageArea = new Rectangle(x,y,width,height);
+
+        if (keyHander.w_Pressed == true && action != "death") {
             count = 1;
             y -= speedY;
             direction_vertical = "up";
-            if (direction_horizontal == "left") {
-                action = "moveLeft";
+            if (action != "hurt") {
+                if (direction_horizontal == "left") {
+                    action = "moveLeft";
+                }
+                if (direction_horizontal == "right") {
+                    action = "moveRight";
+                }
             }
-            if (direction_horizontal == "right") {
-                action = "moveRight";
-            }
-        } else if (keyHander.w_Pressed == false && count == 1) {
-            if (action == "moveLeft") {
-                action = "standLeft";
-            }
-            if (action == "moveRight") {
-                action = "standRight";
+        } else if (keyHander.w_Pressed == false && count == 1 && action != "death") {
+            if (action != "hurt") {
+                if (action == "moveLeft") {
+                    action = "standLeft";
+                }
+                if (action == "moveRight") {
+                    action = "standRight";
+                }
             }
         }
 
-        if (keyHander.s_Pressed == true) {
+        if (keyHander.s_Pressed == true && action != "death") {
             count = 2;
             y += speedY;
             direction_vertical = "down";
-            if (direction_horizontal == "left") {
+            if (action != "hurt") {
+                if (direction_horizontal == "left") {
+                    action = "moveLeft";
+                }
+                if (direction_horizontal == "right") {
+                    action = "moveRight";
+                }
+            }
+        } else if (keyHander.s_Pressed == false && count == 2 && action != "death") {
+            if (action != "hurt") {
+                if (action == "moveLeft") {
+                    action = "standLeft";
+                }
+                if (action == "moveRight") {
+                    action = "standRight";
+                }
+            }
+        }
+
+        if (keyHander.a_Pressed == true && action != "death") {
+            count = 3;
+            x -= speedX;
+            direction_horizontal = "left";
+            if (action != "hurt") {
                 action = "moveLeft";
             }
-            if (direction_horizontal == "right") {
-                action = "moveRight";
-            }
-        } else if (keyHander.s_Pressed == false && count == 2) {
-            if (action == "moveLeft") {
+        } else if (keyHander.a_Pressed == false && count == 3 && action != "death") {
+            if (action != "hurt") {
                 action = "standLeft";
             }
-            if (action == "moveRight") {
+        }
+
+        if (keyHander.d_Pressed == true && action != "death") {
+            count = 4;
+            x += speedX;
+            direction_horizontal = "right";
+            if (action != "hurt") {
+                action = "moveRight";
+            }
+        } else if (keyHander.d_Pressed == false && count == 4 && action != "death") {
+            if (action != "hurt") {
                 action = "standRight";
             }
         }
 
-        if (keyHander.a_Pressed == true) {
-            count = 3;
-            action = "moveLeft";
-            x -= speedX;
-            direction_horizontal = "left";
-        } else if (keyHander.a_Pressed == false && count == 3) {
-            action = "standLeft";
+        if (action == "hurt"){
+            spriteCounter_14Frame++;
+            if (spriteCounter_14Frame > 8) {
+                if ( spriteNum_14Frame == 1){
+                    heart = heart - 1;
+                    spriteNum_14Frame = 2;
+                }
+                else if (spriteNum_14Frame == 2){
+                    spriteNum_14Frame = 3;
+                }
+                else if (spriteNum_14Frame == 3){
+                    spriteNum_14Frame = 4;
+                }
+                else if (spriteNum_14Frame == 4){
+                    spriteNum_14Frame = 5;
+                }
+                else if (spriteNum_14Frame == 5){
+                    spriteNum_14Frame = 6;
+                }
+                else if (spriteNum_14Frame == 6){
+                    spriteNum_14Frame = 7;
+                }
+                else if (spriteNum_14Frame == 7){
+                    spriteNum_14Frame = 8;
+                }
+                else if (spriteNum_14Frame == 8){
+                    spriteNum_14Frame = 9;
+                }
+                else if (spriteNum_14Frame == 9) {
+                    spriteNum_14Frame = 10;
+                }
+                else if (spriteNum_14Frame == 10){
+                    spriteNum_14Frame = 11;
+                }
+                else if (spriteNum_14Frame == 11){
+                    spriteNum_14Frame = 12;
+                }
+                else if (spriteNum_14Frame == 12){
+                    spriteNum_14Frame = 13;
+                }
+                else if (spriteNum_14Frame == 13){
+                    spriteNum_14Frame = 14;
+                }
+                else if (spriteNum_14Frame == 14){
+                    spriteNum_14Frame = 1;
+                }
+                spriteCounter_14Frame = 0;
+            }
         }
 
-        if (keyHander.d_Pressed == true) {
-            count = 4;
-            action = "moveRight";
-            x += speedX;
-            direction_horizontal = "right";
-        } else if (keyHander.d_Pressed == false && count == 4) {
-            action = "standRight";
+        if( action == "death" ){
+            spriteCounter_5Frame ++;
+            if (spriteCounter_5Frame > 15) {
+                if ( spriteNum_5Frame == 1){
+                    spriteNum_5Frame = 2;
+                }
+                else if (spriteNum_5Frame == 2){
+                    spriteNum_5Frame = 3;
+                }
+                else if (spriteNum_5Frame == 3){
+                    spriteNum_5Frame = 4;
+                }
+                else if (spriteNum_5Frame == 4){
+                    spriteNum_5Frame = 5;
+                }
+                spriteCounter_5Frame = 0;
+            }
         }
 
         if (action == "moveRight" || action == "moveLeft") {
@@ -177,15 +310,143 @@ public class Player extends Enity {
             if (spriteNum_2Frame == 2) {
                 image = standLeft2;
             }
-        } else {
-            action = "standRight";
-            if (spriteNum_2Frame == 1) {
-                image = standRight1;
+
+        }
+
+        // when damaged
+
+        if (action == "hurt"){
+            if (direction_horizontal == "right"){
+                if (spriteNum_14Frame == 1){
+                    image = hurtRight1;
+                }
+                if (spriteNum_14Frame == 2){
+                    image = hurtRight2;
+                }
+                if (spriteNum_14Frame == 3){
+                    image = hurtRight3;
+                }
+                if (spriteNum_14Frame == 4){
+                    image = hurtRight4;
+                }
+                if (spriteNum_14Frame == 5){
+                    image = hurtRight5;
+                }
+                if (spriteNum_14Frame == 6){
+                    image = hurtRight6;
+                }
+                if (spriteNum_14Frame == 7){
+                    image = hurtRight7;
+                }
+                if (spriteNum_14Frame == 8){
+                    image = hurtRight8;
+                }
+                if (spriteNum_14Frame == 9){
+                    image = hurtRight9;
+                }
+                if (spriteNum_14Frame == 10){
+                    image = hurtRight10;
+                }
+                if (spriteNum_14Frame == 11){
+                    image = hurtRight11;
+                }
+                if (spriteNum_14Frame == 12){
+                    image = hurtRight12;
+                }
+                if (spriteNum_14Frame == 13){
+                    image = hurtRight13;
+                }
+                if (spriteNum_14Frame == 14){
+                    image = hurtRight14;
+                    spriteNum_14Frame = 1;
+                    action = "standRight";
+                }
             }
-            if (spriteNum_2Frame == 2) {
-                image = standRight2;
+            if (direction_horizontal == "left"){
+                if (spriteNum_14Frame == 1){
+                    image = hurtLeft1;
+                }
+                if (spriteNum_14Frame == 2){
+                    image = hurtLeft2;
+                }
+                if (spriteNum_14Frame == 3){
+                    image = hurtLeft3;
+                }
+                if (spriteNum_14Frame == 4){
+                    image = hurtLeft4;
+                }
+                if (spriteNum_14Frame == 5){
+                    image = hurtLeft5;
+                }
+                if (spriteNum_14Frame == 6){
+                    image = hurtLeft6;
+                }
+                if (spriteNum_14Frame == 7){
+                    image = hurtLeft7;
+                }
+                if (spriteNum_14Frame == 8){
+                    image = hurtLeft8;
+                }
+                if (spriteNum_14Frame == 9){
+                    image = hurtLeft9;
+                }
+                if (spriteNum_14Frame == 10){
+                    image = hurtLeft10;
+                }
+                if (spriteNum_14Frame == 11){
+                    image = hurtLeft11;
+                }
+                if (spriteNum_14Frame == 12){
+                    image = hurtLeft12;
+                }
+                if (spriteNum_14Frame == 13){
+                    image = hurtLeft13;
+                }
+                if (spriteNum_14Frame == 14){
+                    image = hurtLeft14;
+                    spriteNum_14Frame = 1;
+                    action = "standRight";
+                }
             }
         }
+
+        if (action == "death") {
+            if (direction_horizontal == "right"){
+                if (spriteNum_5Frame == 1){
+                    image = deathRight1;
+                }
+                if (spriteNum_5Frame == 2){
+                    image = deathRight2;
+                }
+                if (spriteNum_5Frame == 3){
+                    image = deathRight3;
+                }
+                if (spriteNum_5Frame == 4){
+                    image = deathRight4;
+                }
+                if (spriteNum_5Frame == 5){
+                    image = deathRight5;
+                }
+            }
+            if (direction_horizontal == "left") {
+                if (spriteNum_5Frame == 1) {
+                    image = deathLeft1;
+                }
+                if (spriteNum_5Frame == 2) {
+                    image = deathLeft2;
+                }
+                if (spriteNum_5Frame == 3) {
+                    image = deathLeft3;
+                }
+                if (spriteNum_5Frame == 4) {
+                    image = deathLeft4;
+                }
+                if (spriteNum_5Frame == 5) {
+                    image = deathLeft5;
+                }
+            }
+        }
+
         g2.drawImage(image, x, y, width, height, null);
     }
 }

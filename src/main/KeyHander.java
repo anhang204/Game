@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHander implements KeyListener {
     public boolean w_Pressed, s_Pressed, a_Pressed, d_Pressed;
     public boolean up_Pressed, down_Pressed, left_Pressed, right_Pressed;
+    public boolean enter_Pressed;
     @Override public void keyPressed(KeyEvent e) {
         //Player keyboard:
         if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -33,6 +34,11 @@ public class KeyHander implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             right_Pressed = true;
+        }
+
+        //Spam monster
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            enter_Pressed = true;
         }
     }
 
@@ -63,6 +69,10 @@ public class KeyHander implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             right_Pressed = false;
+        }
+        //Spam monster:
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            enter_Pressed = false;
         }
     }
 
