@@ -80,7 +80,6 @@ public class MenuPanel extends JPanel {
         }
     }
 
-
     // Style the buttons to match the theme
     private void styleButton(JButton button) {
         button.setFont(new Font("Arial", Font.BOLD, 18));

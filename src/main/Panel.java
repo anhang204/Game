@@ -25,6 +25,7 @@ public class Panel extends JPanel implements Runnable {
     public final int boardWidth = maxScreenCol * tileSize;
     public final int boardHeight = maxScreenRow * tileSize;
 
+
     // FPS
     final int FPS = 60;
 
@@ -45,12 +46,16 @@ public class Panel extends JPanel implements Runnable {
     // Background image
     private Image backgroundImage;
 
+    private Sound sound = new Sound();
+
     public Panel() {
         this.setPreferredSize(new Dimension(boardWidth, boardHeight));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHander);
         this.setFocusable(true);
+
+        sound.playLoopedSound("game-music.wav");
 
         // Load the background image
         try {
@@ -114,6 +119,8 @@ public class Panel extends JPanel implements Runnable {
                 }
             }
         } else {
+            sound.stopSound();
+            sound.playSound("gameover_music.wav");
             // When player dies
             warriors.clear();
         }
