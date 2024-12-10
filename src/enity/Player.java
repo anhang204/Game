@@ -10,9 +10,6 @@ import java.io.IOException;
 
 public class Player extends Enity {
     public int heart = 4;
-    private int initialX, initialY, maxHealth;
-    private int health;
-
 
     public Panel panel;
     public KeyHander keyHander;
@@ -22,22 +19,16 @@ public class Player extends Enity {
         this.panel = panel;
         this.keyHander = keyHander;
 
-        // Initialize initial values for reset
-        this.initialX = panel.boardWidth / 2 - panel.tileSize / 2;
-        this.initialY = panel.boardHeight / 2 - panel.tileSize / 2;
-        this.maxHealth = 4; // Default max health
-        this.health = maxHealth;
-
         setDefaultValues_Player();
         getPlayerImage();
     }
 
     public void setDefaultValues_Player() {
         String direction = "standRight";
-        x = initialX;
-        y = initialY;
-        width = panel.tileSize * 3 / 2;
-        height = panel.tileSize * 3 / 2;
+        x = panel.boardWidth / 2 - panel.tileSize / 2;
+        y = panel.boardHeight / 2 - panel.tileSize / 2;
+        width = panel.tileSize*3/2;
+        height = panel.tileSize*3/2;
         speedX = 4;
         speedY = 4;
         direction_horizontal = "right";
@@ -457,20 +448,5 @@ public class Player extends Enity {
         }
 
         g2.drawImage(image, x, y, width, height, null);
-
     }
-
-    public void reset() {
-        // Reset player's position, health, and action
-        this.x = initialX;
-        this.y = initialY;
-        this.health = maxHealth;  // Reset health to max
-        this.heart = maxHealth;   // Reset heart count if applicable
-        this.action = "standRight"; // Reset action to idle/standing
-
-        // Reset other player-specific attributes if needed
-        this.direction_horizontal = "right";
-        this.direction_vertical = "down";
-    }
-
 }

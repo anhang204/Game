@@ -1,5 +1,6 @@
 package enity;
 
+import enity.Monsters.Warrior;
 import main.KeyHander;
 import main.Panel;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Bullet extends Enity{
-    int damge = 1;
+    int damage = 1;
     int bulletSpeed = 15;
 
     private long firingTimer;
@@ -76,7 +77,22 @@ public class Bullet extends Enity{
             firingTimer = System.nanoTime();
         }
     }
+    public boolean update() {
+        for (int i = 0; i < Panel.warriors.size(); i++) {
+            Warrior warrior = Panel.warriors.get(i);
+            if (warrior.isAlive() && attackArea.intersects(warrior.damageArea)) {
+                warrior.takeDamage(damage);
+                return true; // Xóa đạn sau khi va chạm
+            }
+        }
 
+        if (Panel.activeBoss != null && Panel.activeBoss.isAlive() &&
+                attackArea.intersects(Panel.activeBoss.damageArea)) {
+            Panel.activeBoss.takeDamage(damage);
+            return true; // Xóa đạn sau khi va chạm
+        }
+        return false;
+    }
     boolean loopRight,loopLeft,loopUp,loopDown;
     public boolean update2() {
         if (keyHander.right_Pressed == true && loopRight != true && loopLeft != true && loopUp != true && loopDown != true) {

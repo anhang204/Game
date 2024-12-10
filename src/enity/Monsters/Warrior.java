@@ -15,6 +15,7 @@ public class Warrior extends Enity {
     int heart = 2;
     int speed = 5;
     int distance_attack = 70;
+    private boolean isDead = false;
 
     private long spamMonsterTimer;
     private long spamMonsterDelay;
@@ -144,12 +145,32 @@ public class Warrior extends Enity {
         }
     }
 
-    public void update1(){
-        if (keyHander.enter_Pressed == true ){
-                Panel.warriors.add(new Warrior(this.player));
-                spamMonsterTimer = System.nanoTime();
+    public void takeDamage(int damage) {
+        if (isDead) return;
+        heart -= damage;
+
+        if (heart <= 0) {
+            die();
         }
     }
+
+    public void die() {
+        isDead = true;
+        action = "death";
+    }
+
+    public boolean isAlive() {
+        return !isDead;
+    }
+
+    public void update1(){
+        long currentTime = System.nanoTime();
+        if (currentTime - spamMonsterTimer > 3000000000L) {
+            Panel.warriors.add(new Warrior(this.player));
+            spamMonsterTimer = currentTime;
+        }
+    }
+
 
     public boolean update2(){
         double distance_to_playerX = player.x-x;
@@ -163,6 +184,9 @@ public class Warrior extends Enity {
         double speedX = (speed/distance_to_player)*distance_to_playerX;
         double speedY = (speed/distance_to_player)*distance_to_playerY;
 
+        if (isDead) {
+            return true; // Trả về true để Panel biết xóa Warrior
+        }
         if (distance_to_playerX >= 0 && distance_to_player > distance_attack){
             action = "moveRight";
         }
@@ -178,6 +202,7 @@ public class Warrior extends Enity {
 
         attackArea = new Rectangle(x,y,width,height);
         damageArea = new Rectangle(x,y,width,height);
+
 
         if((action == "attack1Right" || action == "attack1Left") && (action != "death") && (player.damageArea.intersects(this.attackArea))){
             if(player.heart <= 0){
@@ -231,6 +256,50 @@ public class Warrior extends Enity {
                 spriteCounter_8Frame = 0;
                 x += speedX;
                 y += speedY;
+            }
+        }
+
+        if( action == "death" ){
+            spriteCounter_13Frame ++;
+            if (spriteCounter_13Frame > 15) {
+                if ( spriteNum_13Frame == 1){
+                    spriteNum_13Frame = 2;
+                }
+                else if (spriteNum_13Frame == 2){
+                    spriteNum_13Frame = 3;
+                }
+                else if (spriteNum_13Frame == 3){
+                    spriteNum_13Frame = 4;
+                }
+                else if (spriteNum_13Frame == 4){
+                    spriteNum_13Frame = 5;
+                }
+                else if (spriteNum_13Frame == 5){
+                    spriteNum_13Frame = 6;
+                }
+                else if (spriteNum_13Frame == 6){
+                    spriteNum_13Frame = 7;
+                }
+                else if (spriteNum_13Frame == 7){
+                    spriteNum_13Frame = 8;
+                }
+                else if (spriteNum_13Frame == 8){
+                    spriteNum_13Frame = 9;
+                }
+                else if (spriteNum_13Frame == 9){
+                    spriteNum_13Frame = 10;
+                }
+                else if (spriteNum_13Frame == 10){
+                    spriteNum_13Frame = 11;
+                }
+                else if (spriteNum_13Frame == 11){
+                    spriteNum_13Frame = 12;
+                }
+                else if (spriteNum_13Frame == 12){
+                    spriteNum_13Frame = 13;
+                }
+                spriteNum_13Frame = 0;
+
             }
         }
         return false;
@@ -327,6 +396,50 @@ public class Warrior extends Enity {
             if (spriteNum_8Frame == 8){
                 image = warriorAttack1Left8;
             }
+        }
+
+        if (action == "death") {
+                if (spriteNum_13Frame == 1){
+                    image = warriorDeathRight1;
+                }
+                if (spriteNum_13Frame == 2){
+                    image = warriorDeathRight2;
+                }
+                if (spriteNum_13Frame == 3){
+                    image = warriorDeathRight3;
+                }
+                if (spriteNum_13Frame == 4){
+                    image = warriorDeathRight4;
+                }
+                if (spriteNum_13Frame == 5){
+                    image = warriorDeathRight5;
+                }
+                if (spriteNum_13Frame == 6){
+                    image = warriorDeathRight6;
+                }
+                if (spriteNum_13Frame == 7){
+                    image = warriorDeathRight7;
+                }
+                if (spriteNum_13Frame == 8){
+                    image = warriorDeathRight8;
+                }
+                if (spriteNum_13Frame == 9){
+                    image = warriorDeathRight9;
+                }
+                if (spriteNum_13Frame == 10){
+                    image = warriorDeathRight10;
+                }
+                if (spriteNum_13Frame == 11){
+                    image = warriorDeathRight11;
+                }
+                if (spriteNum_13Frame == 12){
+                    image = warriorDeathRight12;
+                }
+                if (spriteNum_13Frame == 13){
+                    image = warriorDeathRight13;
+                }
+
+
         }
 
 

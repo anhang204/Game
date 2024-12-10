@@ -316,7 +316,4 @@ public class Gun extends Enity{
             g2.drawImage(image, x, y, width, height, null);
         }
     }
-    public void reset() {
-        // Reset gun-specific states
-    }
 }

@@ -35,6 +35,18 @@ public class Enity {
     ,warriorDeathRight1,warriorDeathRight2,warriorDeathRight3,warriorDeathRight4,warriorDeathRight5,warriorDeathRight6,warriorDeathRight7,warriorDeathRight8,warriorDeathRight9,warriorDeathRight10,warriorDeathRight11,warriorDeathRight12,warriorDeathRight13
     ,warriorDeathLeft1,warriorDeathLeft2,warriorDeathLeft3,warriorDeathLeft4,warriorDeathLeft5,warriorDeathLeft6,warriorDeathLeft7,warriorDeathLeft8,warriorDeathLeft9,warriorDeathLeft10,warriorDeathLeft11,warriorDeathLeft12,warriorDeathLeft13;
 
+
+    public BufferedImage bossWalkRight1,bossWalkRight2,bossWalkRight3,bossWalkRight4,bossWalkRight5,bossWalkRight6,bossWalkRight7,bossWalkRight8
+            ,bossWalkLeft1,bossWalkLeft2,bossWalkLeft3,bossWalkLeft4,bossWalkLeft5,bossWalkLeft6,bossWalkLeft7,bossWalkLeft8
+            ,bossAttack1Right1,bossAttack1Right2,bossAttack1Right3,bossAttack1Right4,bossAttack1Right5,bossAttack1Right6,bossAttack1Right7,bossAttack1Right8,bossAttack1Right9,bossAttack1Right10,bossAttack1Right11,bossAttack1Right12,bossAttack1Right13,bossAttack1Right14
+            ,bossAttack1Left1, bossAttack1Left2, bossAttack1Left3, bossAttack1Left4, bossAttack1Left5, bossAttack1Left6, bossAttack1Left7, bossAttack1Left8, bossAttack1Left9, bossAttack1Left10, bossAttack1Left11, bossAttack1Left12, bossAttack1Left13, bossAttack1Left14
+            ,bossAttack2Left1, bossAttack2Left2, bossAttack2Left3, bossAttack2Left4, bossAttack2Left5, bossAttack2Left6, bossAttack2Left7, bossAttack2Left8
+            ,bossAttack2Right1, bossAttack2Right2, bossAttack2Right3, bossAttack2Right4, bossAttack2Right5, bossAttack2Right6, bossAttack2Right7, bossAttack2Right8
+            ,bossAttack2Object1, bossAttack2Object2, bossAttack2Object3, bossAttack2Object4, bossAttack2Object5, bossAttack2Object6, bossAttack2Object7, bossAttack2Object8
+            ,bossStandLeft1, bossStandLeft2, bossStandLeft3, bossStandLeft4, bossStandLeft5,bossStandRight1, bossStandRight2, bossStandRight3, bossStandRight4, bossStandRight5
+            ,bossDeathRight1, bossDeathRight2, bossDeathRight3, bossDeathRight4, bossDeathRight5, bossDeathRight6, bossDeathRight7, bossDeathRight8, bossDeathRight9, bossDeathRight10, bossDeathRight11, bossDeathRight12, bossDeathRight13, bossDeathRight14
+            ,bossDeathLeft1, bossDeathLeft2, bossDeathLeft3, bossDeathLeft4, bossDeathLeft5, bossDeathLeft6, bossDeathLeft7, bossDeathLeft8, bossDeathLeft9, bossDeathLeft10, bossDeathLeft11, bossDeathLeft12, bossDeathLeft13, bossDeathLeft14;
+
     public Rectangle damageArea = new Rectangle(0,0,0,0);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
 
@@ -60,4 +72,6 @@ public class Enity {
     public int spriteNum_14Frame =1;
     public int spriteCounter_14Frame = 0;
 
+    public int spriteNum_13Frame =1;
+    public int spriteCounter_13Frame = 0;
 }
