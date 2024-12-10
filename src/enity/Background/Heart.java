@@ -65,6 +65,28 @@ public class Heart extends Enity {
         }
     }
 
+    public void reset() {
+        // Reset heart action state and the started_action flag
+        started_action = false;
+
+        // Optionally reset spriteNum_4Frame and spriteCounter_4Frame if you want to restart the animation
+        spriteNum_4Frame = 1;
+        spriteCounter_4Frame = 0;
+
+        // Reset the action based on the player's current heart value
+        if (player.heart == 4) {
+            action = "4_Hearts";
+        } else if (player.heart == 3) {
+            action = "3_Hearts";
+        } else if (player.heart == 2) {
+            action = "2_Hearts";
+        } else if (player.heart == 1) {
+            action = "1_Hearts";
+        } else {
+            action = "0_Hearts";
+        }
+    }
+
     public void update() {
         if (player.heart == 4) {
             action = "4_Hearts";
