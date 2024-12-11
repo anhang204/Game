@@ -43,9 +43,13 @@ public class Sound {
     // Method to set the volume of the sound
     public void setVolume(float volume) {
         if (clip != null) {
-            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(volume);  // Set the volume level
+            try {
+                // Retrieve the volume control from the clip
+                FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeControl.setValue(volume);  // Set the volume level (in dB)
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
-
