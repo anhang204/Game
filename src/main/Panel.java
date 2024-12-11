@@ -65,9 +65,15 @@ public class Panel extends JPanel implements Runnable {
         }
     }
 
+    public void addNotify() {
+        super.addNotify();
+        this.requestFocusInWindow();
+    }
     public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
+        if (gameThread == null || !gameThread.isAlive()) {
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
     }
 
     @Override
