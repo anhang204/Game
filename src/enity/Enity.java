@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 public class Enity {
     Panel panel;
 
-    public int x,y;
-    public int speed,speedX,speedY;
+    public int x, y;
+    public int speed, speedX,speedY;
     public int width,height;
 
     //PLayer_Image
@@ -35,7 +35,7 @@ public class Enity {
     ,warriorDeathRight1,warriorDeathRight2,warriorDeathRight3,warriorDeathRight4,warriorDeathRight5,warriorDeathRight6,warriorDeathRight7,warriorDeathRight8,warriorDeathRight9,warriorDeathRight10,warriorDeathRight11,warriorDeathRight12,warriorDeathRight13
     ,warriorDeathLeft1,warriorDeathLeft2,warriorDeathLeft3,warriorDeathLeft4,warriorDeathLeft5,warriorDeathLeft6,warriorDeathLeft7,warriorDeathLeft8,warriorDeathLeft9,warriorDeathLeft10,warriorDeathLeft11,warriorDeathLeft12,warriorDeathLeft13;
 
-
+    //Boss Image
     public BufferedImage bossWalkRight1,bossWalkRight2,bossWalkRight3,bossWalkRight4,bossWalkRight5,bossWalkRight6,bossWalkRight7,bossWalkRight8
             ,bossWalkLeft1,bossWalkLeft2,bossWalkLeft3,bossWalkLeft4,bossWalkLeft5,bossWalkLeft6,bossWalkLeft7,bossWalkLeft8
             ,bossAttack1Right1,bossAttack1Right2,bossAttack1Right3,bossAttack1Right4,bossAttack1Right5,bossAttack1Right6,bossAttack1Right7,bossAttack1Right8,bossAttack1Right9,bossAttack1Right10,bossAttack1Right11,bossAttack1Right12,bossAttack1Right13,bossAttack1Right14
@@ -74,4 +74,5 @@ public class Enity {
 
     public int spriteNum_13Frame =1;
     public int spriteCounter_13Frame = 0;
+
 }

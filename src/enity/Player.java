@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class Player extends Enity {
     public int heart = 4;
+    private int initialX, initialY, maxHealth;
+    private int health;
+
 
     public Panel panel;
     public KeyHander keyHander;
@@ -19,16 +22,22 @@ public class Player extends Enity {
         this.panel = panel;
         this.keyHander = keyHander;
 
+        // Initialize initial values for reset
+        this.initialX = panel.boardWidth / 2 - panel.tileSize / 2;
+        this.initialY = panel.boardHeight / 2 - panel.tileSize / 2;
+        this.maxHealth = 4; // Default max health
+        this.health = maxHealth;
+
         setDefaultValues_Player();
         getPlayerImage();
     }
 
     public void setDefaultValues_Player() {
         String direction = "standRight";
-        x = panel.boardWidth / 2 - panel.tileSize / 2;
-        y = panel.boardHeight / 2 - panel.tileSize / 2;
-        width = panel.tileSize*3/2;
-        height = panel.tileSize*3/2;
+        x = initialX;
+        y = initialY;
+        width = panel.tileSize * 3 / 2;
+        height = panel.tileSize * 3 / 2;
         speedX = 4;
         speedY = 4;
         direction_horizontal = "right";
@@ -101,8 +110,9 @@ public class Player extends Enity {
     }
 
     int count;
+
     public void update() {
-        damageArea = new Rectangle(x,y,width,height);
+        damageArea = new Rectangle(x, y, width, height);
 
         if (keyHander.w_Pressed == true && action != "death") {
             count = 1;
@@ -176,69 +186,53 @@ public class Player extends Enity {
             }
         }
 
-        if (action == "hurt"){
+        if (action == "hurt") {
             spriteCounter_14Frame++;
             if (spriteCounter_14Frame > 8) {
-                if ( spriteNum_14Frame == 1){
+                if (spriteNum_14Frame == 1) {
                     heart = heart - 1;
                     spriteNum_14Frame = 2;
-                }
-                else if (spriteNum_14Frame == 2){
+                } else if (spriteNum_14Frame == 2) {
                     spriteNum_14Frame = 3;
-                }
-                else if (spriteNum_14Frame == 3){
+                } else if (spriteNum_14Frame == 3) {
                     spriteNum_14Frame = 4;
-                }
-                else if (spriteNum_14Frame == 4){
+                } else if (spriteNum_14Frame == 4) {
                     spriteNum_14Frame = 5;
-                }
-                else if (spriteNum_14Frame == 5){
+                } else if (spriteNum_14Frame == 5) {
                     spriteNum_14Frame = 6;
-                }
-                else if (spriteNum_14Frame == 6){
+                } else if (spriteNum_14Frame == 6) {
                     spriteNum_14Frame = 7;
-                }
-                else if (spriteNum_14Frame == 7){
+                } else if (spriteNum_14Frame == 7) {
                     spriteNum_14Frame = 8;
-                }
-                else if (spriteNum_14Frame == 8){
+                } else if (spriteNum_14Frame == 8) {
                     spriteNum_14Frame = 9;
-                }
-                else if (spriteNum_14Frame == 9) {
+                } else if (spriteNum_14Frame == 9) {
                     spriteNum_14Frame = 10;
-                }
-                else if (spriteNum_14Frame == 10){
+                } else if (spriteNum_14Frame == 10) {
                     spriteNum_14Frame = 11;
-                }
-                else if (spriteNum_14Frame == 11){
+                } else if (spriteNum_14Frame == 11) {
                     spriteNum_14Frame = 12;
-                }
-                else if (spriteNum_14Frame == 12){
+                } else if (spriteNum_14Frame == 12) {
                     spriteNum_14Frame = 13;
-                }
-                else if (spriteNum_14Frame == 13){
+                } else if (spriteNum_14Frame == 13) {
                     spriteNum_14Frame = 14;
-                }
-                else if (spriteNum_14Frame == 14){
+                } else if (spriteNum_14Frame == 14) {
                     spriteNum_14Frame = 1;
                 }
                 spriteCounter_14Frame = 0;
             }
         }
 
-        if( action == "death" ){
-            spriteCounter_5Frame ++;
+        if (action == "death") {
+            spriteCounter_5Frame++;
             if (spriteCounter_5Frame > 15) {
-                if ( spriteNum_5Frame == 1){
+                if (spriteNum_5Frame == 1) {
                     spriteNum_5Frame = 2;
-                }
-                else if (spriteNum_5Frame == 2){
+                } else if (spriteNum_5Frame == 2) {
                     spriteNum_5Frame = 3;
-                }
-                else if (spriteNum_5Frame == 3){
+                } else if (spriteNum_5Frame == 3) {
                     spriteNum_5Frame = 4;
-                }
-                else if (spriteNum_5Frame == 4){
+                } else if (spriteNum_5Frame == 4) {
                     spriteNum_5Frame = 5;
                 }
                 spriteCounter_5Frame = 0;
@@ -315,94 +309,94 @@ public class Player extends Enity {
 
         // when damaged
 
-        if (action == "hurt"){
-            if (direction_horizontal == "right"){
-                if (spriteNum_14Frame == 1){
+        if (action == "hurt") {
+            if (direction_horizontal == "right") {
+                if (spriteNum_14Frame == 1) {
                     image = hurtRight1;
                 }
-                if (spriteNum_14Frame == 2){
+                if (spriteNum_14Frame == 2) {
                     image = hurtRight2;
                 }
-                if (spriteNum_14Frame == 3){
+                if (spriteNum_14Frame == 3) {
                     image = hurtRight3;
                 }
-                if (spriteNum_14Frame == 4){
+                if (spriteNum_14Frame == 4) {
                     image = hurtRight4;
                 }
-                if (spriteNum_14Frame == 5){
+                if (spriteNum_14Frame == 5) {
                     image = hurtRight5;
                 }
-                if (spriteNum_14Frame == 6){
+                if (spriteNum_14Frame == 6) {
                     image = hurtRight6;
                 }
-                if (spriteNum_14Frame == 7){
+                if (spriteNum_14Frame == 7) {
                     image = hurtRight7;
                 }
-                if (spriteNum_14Frame == 8){
+                if (spriteNum_14Frame == 8) {
                     image = hurtRight8;
                 }
-                if (spriteNum_14Frame == 9){
+                if (spriteNum_14Frame == 9) {
                     image = hurtRight9;
                 }
-                if (spriteNum_14Frame == 10){
+                if (spriteNum_14Frame == 10) {
                     image = hurtRight10;
                 }
-                if (spriteNum_14Frame == 11){
+                if (spriteNum_14Frame == 11) {
                     image = hurtRight11;
                 }
-                if (spriteNum_14Frame == 12){
+                if (spriteNum_14Frame == 12) {
                     image = hurtRight12;
                 }
-                if (spriteNum_14Frame == 13){
+                if (spriteNum_14Frame == 13) {
                     image = hurtRight13;
                 }
-                if (spriteNum_14Frame == 14){
+                if (spriteNum_14Frame == 14) {
                     image = hurtRight14;
                     spriteNum_14Frame = 1;
                     action = "standRight";
                 }
             }
-            if (direction_horizontal == "left"){
-                if (spriteNum_14Frame == 1){
+            if (direction_horizontal == "left") {
+                if (spriteNum_14Frame == 1) {
                     image = hurtLeft1;
                 }
-                if (spriteNum_14Frame == 2){
+                if (spriteNum_14Frame == 2) {
                     image = hurtLeft2;
                 }
-                if (spriteNum_14Frame == 3){
+                if (spriteNum_14Frame == 3) {
                     image = hurtLeft3;
                 }
-                if (spriteNum_14Frame == 4){
+                if (spriteNum_14Frame == 4) {
                     image = hurtLeft4;
                 }
-                if (spriteNum_14Frame == 5){
+                if (spriteNum_14Frame == 5) {
                     image = hurtLeft5;
                 }
-                if (spriteNum_14Frame == 6){
+                if (spriteNum_14Frame == 6) {
                     image = hurtLeft6;
                 }
-                if (spriteNum_14Frame == 7){
+                if (spriteNum_14Frame == 7) {
                     image = hurtLeft7;
                 }
-                if (spriteNum_14Frame == 8){
+                if (spriteNum_14Frame == 8) {
                     image = hurtLeft8;
                 }
-                if (spriteNum_14Frame == 9){
+                if (spriteNum_14Frame == 9) {
                     image = hurtLeft9;
                 }
-                if (spriteNum_14Frame == 10){
+                if (spriteNum_14Frame == 10) {
                     image = hurtLeft10;
                 }
-                if (spriteNum_14Frame == 11){
+                if (spriteNum_14Frame == 11) {
                     image = hurtLeft11;
                 }
-                if (spriteNum_14Frame == 12){
+                if (spriteNum_14Frame == 12) {
                     image = hurtLeft12;
                 }
-                if (spriteNum_14Frame == 13){
+                if (spriteNum_14Frame == 13) {
                     image = hurtLeft13;
                 }
-                if (spriteNum_14Frame == 14){
+                if (spriteNum_14Frame == 14) {
                     image = hurtLeft14;
                     spriteNum_14Frame = 1;
                     action = "standRight";
@@ -411,20 +405,20 @@ public class Player extends Enity {
         }
 
         if (action == "death") {
-            if (direction_horizontal == "right"){
-                if (spriteNum_5Frame == 1){
+            if (direction_horizontal == "right") {
+                if (spriteNum_5Frame == 1) {
                     image = deathRight1;
                 }
-                if (spriteNum_5Frame == 2){
+                if (spriteNum_5Frame == 2) {
                     image = deathRight2;
                 }
-                if (spriteNum_5Frame == 3){
+                if (spriteNum_5Frame == 3) {
                     image = deathRight3;
                 }
-                if (spriteNum_5Frame == 4){
+                if (spriteNum_5Frame == 4) {
                     image = deathRight4;
                 }
-                if (spriteNum_5Frame == 5){
+                if (spriteNum_5Frame == 5) {
                     image = deathRight5;
                 }
             }
@@ -448,5 +442,20 @@ public class Player extends Enity {
         }
 
         g2.drawImage(image, x, y, width, height, null);
+
     }
+
+    public void reset() {
+        // Reset player's position, health, and action
+        this.x = initialX;
+        this.y = initialY;
+        this.health = maxHealth;  // Reset health to max
+        this.heart = maxHealth;   // Reset heart count if applicable
+        this.action = "standRight"; // Reset action to idle/standing
+
+        // Reset other player-specific attributes if needed
+        this.direction_horizontal = "right";
+        this.direction_vertical = "down";
+    }
+
 }

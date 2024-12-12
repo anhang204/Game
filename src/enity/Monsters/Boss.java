@@ -35,34 +35,31 @@ public class Boss extends Enity {
     }
 
 
-    public void setDefaltValues_Warrior(){
-        width = panel.tileSize*2;
-        height = panel.tileSize*2;
+    public void setDefaltValues_Warrior() {
+        width = panel.tileSize * 2;
+        height = panel.tileSize * 2;
 
         Random rand = new Random();
         int randomPosition = rand.nextInt(4) + 1;
-        if (randomPosition == 1){
+        if (randomPosition == 1) {
             y = 0 - height;
-            x = rand.nextInt(panel.boardWidth+1);
-        }
-        else if (randomPosition == 2){
+            x = rand.nextInt(panel.boardWidth + 1);
+        } else if (randomPosition == 2) {
             y = panel.boardHeight;
-            x = rand.nextInt(panel.boardWidth+1);
-        }
-        else if (randomPosition == 3){
+            x = rand.nextInt(panel.boardWidth + 1);
+        } else if (randomPosition == 3) {
             x = panel.boardWidth;
-            y = rand.nextInt(panel.boardHeight+1);
-        }
-        else if (randomPosition == 4){
+            y = rand.nextInt(panel.boardHeight + 1);
+        } else if (randomPosition == 4) {
             x = 0 - width;
-            y = rand.nextInt(panel.boardHeight+1);
+            y = rand.nextInt(panel.boardHeight + 1);
         }
 
-        attackArea = new Rectangle(x,y,width,height);
-        damageArea = new Rectangle(x,y,width,height);
+        attackArea = new Rectangle(x, y, width, height);
+        damageArea = new Rectangle(x, y, width, height);
     }
 
-    public void getWarriorImage(){
+    public void getWarriorImage() {
         try {
             bossWalkRight1 = ImageIO.read(getClass().getResourceAsStream("/monsters/boss/walk/Boss_Walk_Right-1.png.png"));
             bossWalkRight2 = ImageIO.read(getClass().getResourceAsStream("/monsters/boss/walk/Boss_Walk_Right-2.png.png"));
@@ -204,51 +201,47 @@ public class Boss extends Enity {
         return !isDead;
     }
 
-    public void update1(){
-        if (keyHander.enter_Pressed && Panel.activeBoss == null) { // Kiểm tra nếu Boss chưa được tạo
-            Panel.activeBoss = new Boss(this.player); // Tạo boss mới
+    public void update1() {
+        if (keyHander.enter_Pressed && Panel.activeBoss == null) {
+            Panel.activeBoss = new Boss(this.player);
             spamMonsterTimer = System.nanoTime();
         }
     }
 
 
-    public boolean update2(){
-        double distance_to_playerX = player.x-x;
-        double distance_to_playerY = player.y-y;
+    public boolean update2() {
+        double distance_to_playerX = player.x - x;
+        double distance_to_playerY = player.y - y;
 
-        double distance_to_player = Math.sqrt(Math.pow(distance_to_playerX,2) + Math.pow(distance_to_playerY,2));
+        double distance_to_player = Math.sqrt(Math.pow(distance_to_playerX, 2) + Math.pow(distance_to_playerY, 2));
 
-        if (distance_to_player == 0){
+        if (distance_to_player == 0) {
             distance_to_player = 1;
         }
-        double speedX = (speed/distance_to_player)*distance_to_playerX;
-        double speedY = (speed/distance_to_player)*distance_to_playerY;
+        double speedX = (speed / distance_to_player) * distance_to_playerX;
+        double speedY = (speed / distance_to_player) * distance_to_playerY;
 
         if (isDead) {
-            return true; // Trả về true để Panel biết xóa Warrior
+            return true;
         }
-        if (distance_to_playerX >= 0 && distance_to_player > distance_attack){
+        if (distance_to_playerX >= 0 && distance_to_player > distance_attack) {
             action = "moveRight";
-        }
-        else if (distance_to_playerX < 0 && distance_to_player > distance_attack){
+        } else if (distance_to_playerX < 0 && distance_to_player > distance_attack) {
             action = "moveLeft";
-        }
-        else if (distance_to_playerX >= 0 && distance_to_player <= distance_attack){
+        } else if (distance_to_playerX >= 0 && distance_to_player <= distance_attack) {
             action = "attack1Right";
-        }
-        else if (distance_to_playerX < 0 && distance_to_player <= distance_attack ){
+        } else if (distance_to_playerX < 0 && distance_to_player <= distance_attack) {
             action = "attack1Left";
         }
 
-        attackArea = new Rectangle(x,y,width,height);
-        damageArea = new Rectangle(x,y,width,height);
+        attackArea = new Rectangle(x, y, width, height);
+        damageArea = new Rectangle(x, y, width, height);
 
 
-        if((action == "attack1Right" || action == "attack1Left") && (action != "death") && (player.damageArea.intersects(this.attackArea))){
-            if(player.heart <= 0){
+        if ((action == "attack1Right" || action == "attack1Left") && (action != "death") && (player.damageArea.intersects(this.attackArea))) {
+            if (player.heart <= 0) {
                 player.action = "death";
-            }
-            else {
+            } else {
                 player.action = "hurt";
             }
         }
@@ -356,7 +349,7 @@ public class Boss extends Enity {
         return false;
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
         if (action == "moveRight") {
@@ -596,8 +589,6 @@ public class Boss extends Enity {
         }
 
 
-
-
-        g2.drawImage(image, x, y, width, height,null);
+        g2.drawImage(image, x, y, width, height, null);
     }
 }

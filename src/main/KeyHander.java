@@ -7,7 +7,9 @@ public class KeyHander implements KeyListener {
     public boolean w_Pressed, s_Pressed, a_Pressed, d_Pressed;
     public boolean up_Pressed, down_Pressed, left_Pressed, right_Pressed;
     public boolean enter_Pressed;
-    @Override public void keyPressed(KeyEvent e) {
+
+    @Override
+    public void keyPressed(KeyEvent e) {
         //Player keyboard:
         if (e.getKeyCode() == KeyEvent.VK_W) {
             w_Pressed = true;
@@ -42,7 +44,8 @@ public class KeyHander implements KeyListener {
         }
     }
 
-    @Override public void keyReleased(KeyEvent e) {
+    @Override
+    public void keyReleased(KeyEvent e) {
         //Player keyboard:
         if (e.getKeyCode() == KeyEvent.VK_W) {
             w_Pressed = false;
@@ -76,7 +79,8 @@ public class KeyHander implements KeyListener {
         }
     }
 
-    @Override public void keyTyped(KeyEvent e) {
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 }
 
