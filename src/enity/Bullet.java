@@ -1,5 +1,6 @@
 package enity;
 
+import enity.Monsters.Warrior;
 import main.KeyHander;
 import main.Panel;
 
@@ -8,8 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Bullet extends Enity{
-    int damge = 1;
+public class Bullet extends Enity {
+    int damage = 1;
     int bulletSpeed = 15;
 
     private long firingTimer;
@@ -20,7 +21,7 @@ public class Bullet extends Enity{
     KeyHander keyHander;
     Gun gun;
 
-    public Bullet(Gun gun){
+    public Bullet(Gun gun) {
         this.panel = gun.panel;
         this.keyHander = gun.keyHander;
         this.gun = gun;
@@ -32,22 +33,22 @@ public class Bullet extends Enity{
         firingDelay = 375;
     }
 
-    public void setDefautValues_Bullet(){
+    public void setDefautValues_Bullet() {
         x = gun.x;
         y = gun.y + 30;
-        width = gun.width/2;
-        height = gun.height/2;
+        width = gun.width / 2;
+        height = gun.height / 2;
 
-        attackArea = new Rectangle(gun.x,gun.y,width,height);
+        attackArea = new Rectangle(gun.x, gun.y, width, height);
     }
 
     public void getBulletImage() {
-        try{
+        try {
             bulletRight = ImageIO.read(getClass().getResourceAsStream("/bullet/Bullets-2.png.png"));
             bulletLeft = ImageIO.read(getClass().getResourceAsStream("/bullet/Bullets-1.png.png"));
             bulletUp = ImageIO.read(getClass().getResourceAsStream("/bullet/Bullets-3.png.png"));
             bulletDown = ImageIO.read(getClass().getResourceAsStream("/bullet/Bullets-4.png.png"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -55,7 +56,7 @@ public class Bullet extends Enity{
     double startedDelay = 100;
     boolean haveBeenStared;
 
-    public void update1 (){
+    public void update1() {
         if (keyHander.left_Pressed == true || keyHander.right_Pressed == true || keyHander.up_Pressed == true || keyHander.down_Pressed == true) {
             long eslapsed = (System.nanoTime() - firingTimer) / 1000000;
             if (eslapsed > startedDelay || haveBeenStared == true) {
@@ -63,21 +64,38 @@ public class Bullet extends Enity{
                     Panel.bullets.add(new Bullet(this.gun));
                     firingTimer = System.nanoTime();
                     haveBeenStared = true;
-                }
-                else if (eslapsed > firingDelay) {
+                } else if (eslapsed > firingDelay) {
                     Panel.bullets.add(new Bullet(this.gun));
                     firingTimer = System.nanoTime();
                     haveBeenStared = true;
                 }
             }
         }
-        if (!(keyHander.left_Pressed == true || keyHander.right_Pressed == true || keyHander.up_Pressed == true || keyHander.down_Pressed == true)){
+        if (!(keyHander.left_Pressed == true || keyHander.right_Pressed == true || keyHander.up_Pressed == true || keyHander.down_Pressed == true)) {
             haveBeenStared = false;
             firingTimer = System.nanoTime();
         }
     }
 
-    boolean loopRight,loopLeft,loopUp,loopDown;
+    public boolean update() {
+        for (int i = 0; i < Panel.warriors.size(); i++) {
+            Warrior warrior = Panel.warriors.get(i);
+            if (warrior.isAlive() && attackArea.intersects(warrior.damageArea)) {
+                warrior.takeDamage(damage);
+                return true; // Xóa đạn sau khi va chạm
+            }
+        }
+
+        if (Panel.activeBoss != null && Panel.activeBoss.isAlive() &&
+                attackArea.intersects(Panel.activeBoss.damageArea)) {
+            Panel.activeBoss.takeDamage(damage);
+            return true; // Xóa đạn sau khi va chạm
+        }
+        return false;
+    }
+
+    boolean loopRight, loopLeft, loopUp, loopDown;
+
     public boolean update2() {
         if (keyHander.right_Pressed == true && loopRight != true && loopLeft != true && loopUp != true && loopDown != true) {
             x = gun.x + 55;
@@ -154,10 +172,11 @@ public class Bullet extends Enity{
                 }
             }
         }
-        attackArea = new Rectangle(gun.x,gun.y,width,height);
+        attackArea = new Rectangle(x, y, width, height);
         return false;
     }
-    public void draw (Graphics2D g2){
+
+    public void draw(Graphics2D g2) {
         BufferedImage image = null;
         if (loopRight == true) {
             image = bulletRight;
