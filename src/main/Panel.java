@@ -4,6 +4,7 @@ package main;
 import enity.Background.Heart;
 import enity.Bullet;
 import enity.Gun;
+import enity.Monsters.Boss;
 import enity.Monsters.Warrior;
 import enity.Player;
 
@@ -42,6 +43,10 @@ public class Panel extends JPanel implements Runnable {
 
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Warrior> warriors;
+    public static Boss activeBoss = null;
+    private long startTime = 0;
+    private boolean stopWarriorCreation = false;
+    private boolean bossCreated = false;
 
     // Background image
     private Image backgroundImage;
@@ -109,19 +114,37 @@ public class Panel extends JPanel implements Runnable {
 
         // When player is alive
         if (!player.action.equals("death")) {
-            gun.update();
+           gun.update();
             bullet.update1();
-            warrior.update1();
+
+            if (!stopWarriorCreation) {
+                warrior.update1();
+            }
 
             for (int i = 0; i < bullets.size(); i++) {
+                bullets.get(i).update2();
                 if (bullets.get(i).update2()) {
                     bullets.remove(i);
                 }
             }
 
             for (int i = 0; i < warriors.size(); i++) {
-                if (warriors.get(i).update2()) {
+                Warrior warrior = warriors.get(i);
+                if (warrior.update2()) {
                     warriors.remove(i);
+                    i--;
+                }
+            }
+
+            if (startTime == 0) {
+                startTime = System.currentTimeMillis();
+            }
+
+            if (System.currentTimeMillis() - startTime >= 20000) {
+                if (!stopWarriorCreation) {
+                    clearWarriors();
+                    stopWarriorCreation = true;
+                    createBoss();
                 }
             }
         } else {
@@ -130,8 +153,30 @@ public class Panel extends JPanel implements Runnable {
             // When player dies
             warriors.clear();
         }
+        for (int i = 0; i < Panel.bullets.size(); i++) {
+            Bullet bullet = Panel.bullets.get(i);
+            if (bullet.update()) {
+                i--;
+            }
+        }
+        if (activeBoss != null) {
+            activeBoss.update1();
+            if (activeBoss.update2()) {
+                activeBoss = null;
+            }
+        }
+    }
+    
+    private void clearWarriors() {
+        warriors.clear();
     }
 
+    private void createBoss() {
+        if (!bossCreated) {
+            activeBoss = new Boss(player);
+            bossCreated = true;
+        }
+    }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -146,15 +191,19 @@ public class Panel extends JPanel implements Runnable {
         gun.draw(g2);
 
         if (bullets != null) {
-            for (Bullet b : bullets) {
-                b.draw(g2);
+            for (int i = 0; i < bullets.size(); i++) {
+                bullets.get(i).draw(g2);
             }
         }
 
         if (warriors != null) {
-            for (Warrior w : warriors) {
-                w.draw(g2);
+            for (int i = 0; i < warriors.size(); i++) {
+                warriors.get(i).draw(g2);
             }
+        }
+
+        if (activeBoss != null) {
+            activeBoss.draw(g2);
         }
 
         g2.dispose();
