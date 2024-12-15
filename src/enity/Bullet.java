@@ -154,7 +154,9 @@ public class Bullet extends Enity{
                 }
             }
         }
-        attackArea = new Rectangle(gun.x,gun.y,width,height);
+
+        attackArea = new Rectangle(x,y,width,height);
+
         return false;
     }
     public void draw (Graphics2D g2){

@@ -28,7 +28,7 @@ public class Gun extends Enity{
     int distanceX = 10;
     int distanceY = 2;
     public void setDefautValues_Gun(){
-        x = player.x + distanceX;
+        x = player.x - distanceX*2;
         y = player.y-distanceY;
         width = player.width*3/2;
         height = player.height*3/2;
