@@ -83,8 +83,8 @@ public class Panel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        bullets = new ArrayList<Bullet>();
-        warriors = new ArrayList<Warrior>();
+        bullets = new ArrayList<>();
+        warriors = new ArrayList<>();
 
         double drawInterval = 1000000000 / FPS;
         double delta = 0;
@@ -92,91 +92,99 @@ public class Panel extends JPanel implements Runnable {
         long currentTime;
 
         while (gameThread != null) {
-            currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / drawInterval;
-            lastTime = currentTime;
+            try {
+                currentTime = System.nanoTime();
+                delta += (currentTime - lastTime) / drawInterval;
+                lastTime = currentTime;
 
-            if (delta >= 1) {
-                update();
-                repaint();
-                delta--;
+                if (delta >= 1) {
+                    update();
+                    repaint();
+                    delta--;
+                }
+            } catch (Exception e) {
+                e.printStackTrace(); // Catch any runtime errors during the game loop
             }
         }
     }
 
+
     public void update() {
-        player.update();
-        heart.update();
+        if (player != null) {
+            player.update();
+            heart.update();
 
-        if (player.spriteNum_14Frame == 2) {
-            heart.started_action = false;
-        }
+            if (!player.action.equals("death")) {
+                gun.update();
+                bullet.update1();
 
-        // When player is alive
-        if (!player.action.equals("death")) {
-           gun.update();
-            bullet.update1();
+                if (!stopWarriorCreation) {
+                    warrior.update1();
+                }
 
-            if (!stopWarriorCreation) {
-                warrior.update1();
+                for (int i = 0; i < bullets.size(); i++) {
+                    if (bullets.get(i).update2()) {
+                        bullets.remove(i);
+                    }
+                }
+
+                for (int i = 0; i < warriors.size(); i++) {
+                    if (warriors.get(i).update2()) {
+                        warriors.remove(i);
+                        i--;
+                    }
+                }
+
+                if (startTime == 0) {
+                    startTime = System.currentTimeMillis();
+                }
+
+                if (System.currentTimeMillis() - startTime >= 20000) {
+                    if (!stopWarriorCreation) {
+                        clearWarriors();
+                        stopWarriorCreation = true;
+                        createBoss();
+                    }
+                }
+            } else {
+                sound.stopSound();
+                sound.playSound("gameover_music.wav");
+                warriors.clear();
             }
 
             for (int i = 0; i < bullets.size(); i++) {
-                bullets.get(i).update2();
-                if (bullets.get(i).update2()) {
-                    bullets.remove(i);
-                }
-            }
-
-            for (int i = 0; i < warriors.size(); i++) {
-                Warrior warrior = warriors.get(i);
-                if (warrior.update2()) {
-                    warriors.remove(i);
+                if (bullets.get(i).update()) {
                     i--;
                 }
             }
 
-            if (startTime == 0) {
-                startTime = System.currentTimeMillis();
-            }
-
-            if (System.currentTimeMillis() - startTime >= 20000) {
-                if (!stopWarriorCreation) {
-                    clearWarriors();
-                    stopWarriorCreation = true;
-                    createBoss();
+            if (activeBoss != null) {
+                activeBoss.update1();
+                if (activeBoss.update2()) {
+                    activeBoss = null;
                 }
-            }
-        } else {
-            sound.stopSound();
-            sound.playSound("gameover_music.wav");
-            // When player dies
-            warriors.clear();
-        }
-        for (int i = 0; i < Panel.bullets.size(); i++) {
-            Bullet bullet = Panel.bullets.get(i);
-            if (bullet.update()) {
-                i--;
-            }
-        }
-        if (activeBoss != null) {
-            activeBoss.update1();
-            if (activeBoss.update2()) {
-                activeBoss = null;
             }
         }
     }
-    
+
+
     private void clearWarriors() {
         warriors.clear();
     }
 
     private void createBoss() {
         if (!bossCreated) {
-            activeBoss = new Boss(player);
-            bossCreated = true;
+            if (player != null) { // Ensure player is not null
+                try {
+                    activeBoss = new Boss(player);
+                    bossCreated = true;
+                } catch (Exception e) {
+                    e.printStackTrace(); // Log any exception during Boss creation
+                }
+            }
         }
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
